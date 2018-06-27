@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 # Carts.
-./single.sh carts carts-db
+./single.sh carts "Started" carts-db
 
 # Orders.
-./single.sh orders orders-db
+./single.sh orders "Started" orders-db
+
+# Payment.
+./single.sh payment "port=80"
