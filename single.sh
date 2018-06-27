@@ -21,7 +21,6 @@ LF="instrumented-$1-start-time.log"
 # Start db service.
 #
 if [ -n "$DS" ]; then
-  echo ENTROU
   docker-compose -f $CF up -d $DS
   while :; do
     docker-compose -f $CF logs $DS | grep "waiting for connections" && break
