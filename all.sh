@@ -8,3 +8,6 @@
 
 # Payment.
 ./single.sh payment "port=80"
+
+# Shipping.
+./single.sh shipping Started
