@@ -16,6 +16,8 @@ DS=$3
 CF=./docker-compose.yml
 # Log File.
 LF="instrumented-$1-start-time.log"
+# Sample Size.
+SS=2
 
 #
 # Start db service.
@@ -31,10 +33,15 @@ fi
 #
 # Measure time to start.
 #
-for i in {1..1}; do
+while [ $SS -gt 0 ]; do
+  let SS=SS-1
+
   /usr/bin/time -a -o $LF -f "%e" ./start-app.sh $MS $SC
-  docker-compose -f $CF up -d --scale $MS=0 $MS
-  sleep $(Rscript ./generate-random-number.r | awk {'print $2'})
+
+  if [ $SS -gt 0 ]; then
+    docker-compose -f $CF up -d --scale $MS=0 $MS
+    sleep $(Rscript ./generate-random-number.r | awk {'print $2'})
+  fi
 done
 
 #
