@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-# Compose File.
-CF=./docker-compose.yml
+set -e
+
+if [ -z ${CF+x} ]; then
+  echo ERROR: envar CF must be set to compose file path
+  exit 1
+fi
+
 # MicroService.
 MS=$1
 # String Check.

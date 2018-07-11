@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-CF=./docker-compose.yml
+set -e
 
-docker-compose -f $CF down
+docker-compose -f $1 down

@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 
-# Carts.
-./single.sh carts "Started" carts-db
+set -e
 
-# Orders.
-./single.sh orders "Started" orders-db
+for scenario in rbinder instrumented; do
+  # Carts.
+  SCENARIO=$scenario ./single.sh carts "Started" carts-db
 
-# Payment.
-./single.sh payment "port=80"
+  # Orders.
+  SCENARIO=$scenario ./single.sh orders "Started" orders-db
 
-# Shipping.
-./single.sh shipping Started
+  # Payment.
+  SCENARIO=$scenario ./single.sh payment "port=80"
 
-./single.sh user "port=80" user-db
+  # Shipping.
+  SCENARIO=$scenario ./single.sh shipping Started
+
+  # User.
+  SCENARIO=$scenario ./single.sh user "port=80" user-db
+done

@@ -3,8 +3,13 @@
 #
 # Usage
 #
-#     $ ./single.sh microservice stringcheck [database]
+#     $ SCENARIO=scenario ./single.sh microservice stringcheck [database]
 #
+
+if [ -z ${SCENARIO+x} ]; then
+  echo ERROR: envar SCENARIO must be set to rbinder or instrumented
+  exit 1
+fi
 
 # MicroService.
 MS=$1
@@ -13,9 +18,9 @@ SC=$2
 # Database Service
 DS=$3
 # Compose File.
-CF=./docker-compose.yml
+export CF=./docker-compose.${SCENARIO}.yml
 # Log File.
-LF="instrumented-$1-start-time.log"
+LF="${SCENARIO}-$1-start-time.log"
 # Sample Size.
 SS=2
 
@@ -47,4 +52,4 @@ done
 #
 # Teardown.
 #
-./stopall.sh
+./stopall.sh $CF
