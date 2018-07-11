@@ -24,6 +24,8 @@ LF="${SCENARIO}-$1-start-time.log"
 # Sample Size.
 SS=2
 
+mkdir -p logs
+
 #
 # Start db service.
 #
@@ -41,7 +43,7 @@ fi
 while [ $SS -gt 0 ]; do
   let SS=SS-1
 
-  /usr/bin/time -a -o $LF -f "%e" ./start-app.sh $MS $SC
+  /usr/bin/time -a -o ./logs/$LF -f "%e" ./start-app.sh $MS $SC
 
   if [ $SS -gt 0 ]; then
     docker-compose -f $CF up -d --scale $MS=0 $MS

@@ -2,4 +2,4 @@
 
 set -e
 
-rm *.log
+rm -r logs/
