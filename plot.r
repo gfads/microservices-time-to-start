@@ -23,12 +23,12 @@ plot_func <- function(ylab, data, errs, filename) {
               rep("Go Lang",2))
   condition=rep(c("Instrumented\nMicroservices", "Rbinder") , 5)
   plotdata=data.frame(microservice,languages,condition,data,errs)
- 
+
   # Bar plot with error bars.
   theme_set(theme_bw())
   plot <- ggplot(plotdata, aes(x=microservice, y=data, fill=condition)) +
                   geom_bar(stat="identity", position="dodge", colour="black") +
-                  geom_errorbar(aes(ymin=means-errs, ymax=means+errs),
+                  geom_errorbar(aes(ymin=data-errs, ymax=data+errs),
                                 width=.2,
                                 position=position_dodge(.9))
   plot + labs(x="Microservice", y=ylab) +
