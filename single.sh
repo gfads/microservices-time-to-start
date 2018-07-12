@@ -22,7 +22,7 @@ export CF=./docker-compose.${SCENARIO}.yml
 # Log File.
 LF="${SCENARIO}-$1-start-time.log"
 # Sample Size.
-SS=2
+SS=30
 
 mkdir -p logs
 
