@@ -8,7 +8,7 @@ library(ggplot2)
 #  It would be so great to reuse this function (it is basically a copy & paste
 #  from the script for plotting the binsizes chart).
 #
-plot_func <- function(ylab, data, errs, filename) {
+plot_func <- function(ylab, data, filename) {
   microservice=c(
                  rep("carts",    2),
                  rep("orders",   2),
@@ -22,15 +22,12 @@ plot_func <- function(ylab, data, errs, filename) {
               rep("Java",2),
               rep("Go Lang",2))
   condition=rep(c("Instrumented\nMicroservices", "Rbinder") , 5)
-  plotdata=data.frame(microservice,languages,condition,data,errs)
+  plotdata=data.frame(microservice,languages,condition,data)
 
   # Bar plot with error bars.
   theme_set(theme_bw())
   plot <- ggplot(plotdata, aes(x=microservice, y=data, fill=condition)) +
-                  geom_bar(stat="identity", position="dodge", colour="black") +
-                  geom_errorbar(aes(ymin=data-errs, ymax=data+errs),
-                                width=.2,
-                                position=position_dodge(.9))
+                  geom_bar(stat="identity", position="dodge", colour="black")
   plot + labs(x="Microservice", y=ylab) +
     scale_fill_manual("Scenario",
                       values = c("Instrumented Microservices"="white",
@@ -42,6 +39,7 @@ plot_func <- function(ylab, data, errs, filename) {
 
 means <- c()
 errs <- c()
+sds <- c()
 meansidx <- 1
 
 for(service in c('carts', 'orders', 'payment', 'shipping', 'user')) {
@@ -49,9 +47,13 @@ for(service in c('carts', 'orders', 'payment', 'shipping', 'user')) {
     filename <- paste('./logs/', scenario, '-', service, '-start-time', '.log', sep='')
     replicaset <- read.csv(file=filename, head=FALSE)
     means[meansidx] <- mean(replicaset$V1)
+    sds[meansidx] <- sd(replicaset$V1)
     errs[meansidx] <- qt(0.975, df=length(replicaset$V1)-1)*sd(replicaset$V1)/sqrt(length(replicaset$V1))
     meansidx <- meansidx + 1
   }
 }
 
-plot_func("Time (s)", means, errs, 'time')
+#flicts = data.frame(means, sds)
+#print(flicts)
+
+plot_func("Time (s)", means, 'time')
