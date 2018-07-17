@@ -33,8 +33,10 @@ plot_func <- function(ylab, data, filename) {
                       values = c("Instrumented Microservices"="white",
                                  "Rbinder"="gray")
                       ) +
-    facet_grid(~languages, scales='free', space='free')
-  ggsave(filename=paste('./', filename, '.pdf', sep=''), height=3)
+    facet_grid(~languages, scales='free', space='free') +
+    theme(legend.position="top",
+          text = element_text(size=18))
+  ggsave(filename=paste('./', filename, '.pdf', sep=''), height=5)
 }
 
 means <- c()
