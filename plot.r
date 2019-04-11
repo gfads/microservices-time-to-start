@@ -30,8 +30,8 @@ plot_func <- function(ylab, data, filename) {
                   geom_bar(stat="identity", position="dodge", colour="black")
   plot + labs(x="Microservice", y=ylab) +
     scale_fill_manual("Scenario",
-                      values = c("Instrumented Microservices"="white",
-                                 "Rbinder"="gray")
+                      values = c("Instrumented\nMicroservices"="red",
+                                 "Rbinder"="black")
                       ) +
     facet_grid(~languages, scales='free', space='free') +
     theme(legend.position="top",
@@ -55,7 +55,7 @@ for(service in c('carts', 'orders', 'payment', 'shipping', 'user')) {
   }
 }
 
-#flicts = data.frame(means, sds)
-#print(flicts)
+flicts = data.frame(means, sds)
+print(flicts)
 
 plot_func("Time (s)", means, 'time')
